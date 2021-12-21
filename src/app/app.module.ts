@@ -11,6 +11,7 @@ import { FormComponent } from './clientes/form/form.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './usuarios/login/login.component';
+import { DetaillesComponent } from './clientes/detailles/detailles.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { LoginComponent } from './usuarios/login/login.component';
     HeaderComponent,
     ClientesComponent,
     FormComponent,
-    LoginComponent
+    LoginComponent,
+    DetaillesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Region } from "./region";
+import { Task } from "./task";
 
 export class Cliente {
  id!: number;
@@ -6,6 +7,7 @@ export class Cliente {
  apellido!:string;
  createdAt!: string;
  email!: string;
- foto!: string;
+ imagen!: string;
  region!: Region;
+ task!: Task;
 }

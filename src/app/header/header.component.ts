@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   nombreapp:string="ClienteApp";
+  imageSrc = 'assets/image.jpg';
   constructor(public authService: AuthService, private router: Router) { }
   logout(): void {
     let username = this.authService.usuario.username;

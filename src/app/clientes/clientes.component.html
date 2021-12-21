@@ -2,17 +2,22 @@
   <div class="card-header">
     Clientes
   </div>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
   <div class="card-body text-primary">
     <h5>Listado de Clientes</h5>
 
     <div class="my-2 text-left">
-      <button
-        class="btn btn-rounded btn-primary"
+      <button *ngIf="authService.token"
+        class="btn bnt-success btn-success"
         type="button"
         [routerLink]="['/clientes/crear']"
         >
-          Nuevo Cliente
-      </button>
+        <i class="fa fa-send">
+
+        </i>new alumn</button>
     </div>
 
     <table class="table">
@@ -22,25 +27,55 @@
           <th scope="col">Nombre</th>
           <th scope="col">Apellido</th>
           <th scope="col">Email</th>
+          <th scope="col">Region</th>
           <th scope="col">Fecha</th>
-          <th scope="col">Accion</th>
+          <th scope="col">Task label</th>
+          <th scope="col">Estado</th>
+
+          <th *ngIf="authService.token" scope="col">Accion</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of clientes">
-          <th scope="row">{{item.id}}</th>
+          <td scope="row">
+              <!--<button
+                type="button"
+                class="btn btn-success btn-sm"
+                [routerLink]="['/clientes/ver',item.id]">
+                {{item.id}}
+              </button>-->
+            <a [routerLink]="['/clientes/ver',item.id]">
+
+
+            <img *ngIf="item.imagen"
+            src="http://localhost:8087/api/uploads/img/{{item.imagen}}" alt="{{item.imagen}}" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+
+            <img *ngIf="!item?.imagen"
+              src="{{imageSrc}}" alt="Sin foto" class="img-thumbnail rounded"
+              style="width:64px; cursor: pointer;">
+            </a>
+
+          </td>
           <td>{{item.nombre}}</td>
           <td>{{item.apellido}}</td>
           <td>{{item.email}}</td>
+          <td>{{item.region.nombre}}</td>
           <td>{{item.createdAt}}</td>
-          <td>
-            <button  class="btn btn-primary m-md-4"  [routerLink]="['/clientes/crear',item.id]">Editar</button>
-            <button  class="btn btn-danger" (click)="delete(item)" >Eliminar</button>
+          <td>{{item.task.label}}</td>
+          <td><span [ngClass]="{'badge bg-success': item.task.completa,'badge bg-danger':!item.task.completa}" class="badge badge-secondary badge-pill">
+
+            <i class="fa " [ngClass]="{'fa-thumbs-up':item.task.completa,'fa-thumbs-down':!item.task.completa}"
+             aria-hidden="true"></i>
+            </span></td>
+          <td *ngIf="authService.token">
+            <button  class="tn btn-warning btn-sm"  [routerLink]="['/clientes/editar',item.id]"><i class="fa fa-pencil"></i></button>
+            <button  class="btn btn-sm btn-dark" (click)="delete(item)" >
+              <i class="fa fa-trash"></i>
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-
-

@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of,Observable} from 'rxjs';
 import { Cliente } from './cliente';
 import {map} from 'rxjs/operators';
 import { AuthService } from '../usuarios/auth.service';
 import { Region } from './region';
+import { Task } from './task';
 
 
 @Injectable({
@@ -57,4 +58,36 @@ export class ClienteService {
       map( (response) => response as Region[] )
     );
   }
+
+  getTasks(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.urlEndPoint + '/tasks', { headers: this.agregarAuthorizationHeader() }).pipe(
+      map( (response) => response as Task[] )
+    );
+  }
+
+
+  subirFoto(archivo: File, id:any): Observable<HttpEvent<any>> {
+
+    let formData = new FormData();
+    formData.append("archivo", archivo);
+    formData.append("id", id);
+
+    let httpHeaders = new HttpHeaders();
+    let token = this.authService.token;
+    if (token != null) {
+      httpHeaders = httpHeaders.append('Authorization', 'Bearer ' + token);
+    }
+
+    const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
+      reportProgress: true,
+      headers: httpHeaders
+    });
+
+    return this.http.request(req).pipe(
+     resp => resp
+    );
+
+  }
+
 }
+

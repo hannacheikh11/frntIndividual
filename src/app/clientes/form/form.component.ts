@@ -4,6 +4,7 @@ import swal from 'sweetalert2';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
 import { Region } from '../region';
+import { Task } from '../task';
 
 @Component({
   selector: 'app-form',
@@ -11,8 +12,9 @@ import { Region } from '../region';
 })
 export class FormComponent implements OnInit {
 
-  titulo:string ="Crear Cliente";
+  titulo:string ="Crear task alum";
   regiones!: Region[];
+  tasks!:Task[];
   cliente: Cliente = new Cliente();
 
   constructor(private clienteService: ClienteService,
@@ -29,6 +31,7 @@ export class FormComponent implements OnInit {
     });
 
     this.clienteService.getRegiones().subscribe(regiones => this.regiones = regiones);
+    this.clienteService.getTasks().subscribe(tasks => this.tasks = tasks);
   }
 
   public create():void{
@@ -71,6 +74,15 @@ export class FormComponent implements OnInit {
     }
 
     return o1 === null || o2 === null || o1 === undefined || o2 === undefined ? false : o1.id === o2.id;
+  }
+
+
+  compararTask(t1: Task, t2: Task): boolean {
+    if (t1 === undefined && t2 === undefined) {
+      return true;
+    }
+
+    return t1 === null || t2 === null || t1 === undefined || t2 === undefined ? false : t1.id === t2.id;
   }
 
 

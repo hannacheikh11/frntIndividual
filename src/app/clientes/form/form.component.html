@@ -1,4 +1,4 @@
-<div class="card bg-dark text-white">
+<div class="card bg-light text-dark">
   <div class="card-header">{{titulo}}</div>
 
   <div card-body>
@@ -44,8 +44,41 @@
       </div>
 
       <div class="form-group row">
+        <label for="task" class="col-form-label col-sm-2">Task Nombre</label>
         <div class="col-sm-6">
-          <button class="btn btn-primary" role="botton" (click)="create()" *ngIf="!cliente.id else elseBlock">Crear</button>
+          <select [compareWith]="compararTask" class="form-control" [(ngModel)]="cliente.task" name="task" style="width:500px;">
+            <option [ngValue]="undefined">--- selecionar un task ---</option>
+            <option *ngFor="let task of tasks" [ngValue]="task">{{task.label}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row" >
+        <label for="task" class="col-form-label col-sm-2">Task Estado</label>
+        <div class="col-sm-6" *ngIf="cliente.task.completa == true else otro">
+          <select name="task" style="width:500px;">
+            <option selected>true</option>
+            <option> false</option>
+          </select>
+          <!--<select [compareWith]="compararTask" class="form-control" [(ngModel)]="cliente.task" name="task" style="width:500px;">
+            <option [ngValue]="undefined">--- selecionar un estado ---</option>
+            <option *ngFor="let task of tasks" [ngValue]="task">{{task.completa}}</option>
+          </select>-->
+        </div>
+
+        <ng-template #otro>
+          <select name="task" style="width:500px;">
+            <option selected>false</option>
+            <option> true </option>
+          </select>
+        </ng-template>
+      </div>
+
+
+
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn btn-success btn-sm" role="botton" (click)="create()" *ngIf="!cliente.id else elseBlock"><i class="fa fa-plus"></i>Create</button>
 
           <ng-template #elseBlock>
             <button class="btn btn-primary" role="button" (click)='update()'>Editar</button>
